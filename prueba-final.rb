@@ -16269,3 +16269,15 @@ nasa = // 20210322212133
     }
   ]
 }
+
+def build_web_page(nasa)
+  puts "<html>"
+  puts "<head>"
+  puts "</head>"
+  puts "<body>"
+  puts "\t<ul>"
+  
+
+
+
+end
