@@ -1,6 +1,7 @@
 require "uri"
 require "net/http"
-require 'json'
+require "openssl"
+require "json"
 
 endpoint ="https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key="
 key = "DmEd5we3auG6FHp1BbBA11gjippA7MVDgZF4cCmg"
@@ -38,7 +39,7 @@ def build_web_page(html_li)
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>' 
+    <title>Fotos de la NASA</title>' 
 
   html_second =
     "</head>
