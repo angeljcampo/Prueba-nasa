@@ -3,7 +3,7 @@ require "net/http"
 require "openssl"
 require "json"
 
-endpoint ="https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key="
+endpoint ="https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=0&api_key="
 key = "DmEd5we3auG6FHp1BbBA11gjippA7MVDgZF4cCmg"
 
 def get_data(endpoint,key)
