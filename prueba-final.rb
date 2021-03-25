@@ -2,14 +2,20 @@ require "uri"
 require "net/http"
 require 'json'
 
+endpoint ="https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key="
 key = "DmEd5we3auG6FHp1BbBA11gjippA7MVDgZF4cCmg"
-url = URI("https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=#{key}")
-https = Net::HTTP.new(url.host, url.port)
-https.use_ssl = true
-request = Net::HTTP::Get.new(url)
-request["Cookie"] = "__cfduid=d96807a53a540a2b41f5f2af356796f621616525946"
-response = https.request(request)
-data = JSON.parse (response.read_body)
+
+def get_data(endpoint,key)
+  url = URI("#{endpoint}#{key}")
+  https = Net::HTTP.new(url.host, url.port)
+  https.use_ssl = true
+  request = Net::HTTP::Get.new(url)
+  request["Cookie"] = "__cfduid=d96807a53a540a2b41f5f2af356796f621616525946"
+  response = https.request(request)
+  JSON.parse (response.read_body)
+end
+
+data = get_data(endpoint,key)
 
 photos_totales = []
 data1 = data["photos"].length
@@ -23,25 +29,29 @@ photos_totales.length.times do |i|
   html_li = html_li + "<li><img src=#{photos_totales[i]}></li>" 
 end
 
-html_first = '<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>' 
 
-html_second =
-"</head>
-<body>
-<h1> NASA </h1>
-  <ul>
-    #{html_li}
-  </ul>
-</body>
-</html>"
+def build_web_page(html_li)
+  html_first = 
+    '<!DOCTYPE html>
+    <html lang="es">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>' 
 
-html_final = html_first + html_second
+  html_second =
+    "</head>
+    <body>
+    <h1> NASA </h1>
+      <ul>
+      #{html_li}
+      </ul>
+    </body>
+    </html>"
 
-File.write('index.html', html_final)
+  html_final = html_first + html_second
+end
+
+File.write('index.html', build_web_page(html_li))
 
